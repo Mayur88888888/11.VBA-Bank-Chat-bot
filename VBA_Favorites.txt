@@ -1,0 +1,7 @@
+Range("A1").Copy Destination:=Range("B1")
+For i = 1 To 10 Step 2
+    Debug.Print i
+Next i
+Sheets("Sheet1").Copy After:=Sheets(Sheets.Count)
+DateDiff("d", #1/1/2024#, Date)
+DateAdd("d", 7, Date)

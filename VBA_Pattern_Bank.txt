@@ -1,153 +1,411 @@
-===== VBA Pattern Bank =====
-
-[Category: Worksheet Operations]
-Sheets("Sheet1").Activate
-Sheets("Sheet1").Select
-
-Dim ws As Worksheet
-Set ws = ThisWorkbook.Sheets.Add(After:=Sheets(Sheets.Count))
-ws.Name = "NewSheet"
-
-Application.DisplayAlerts = False
-Sheets("SheetToDelete").Delete
-Application.DisplayAlerts = True
-
-Sheets("Sheet1").Copy After:=Sheets(Sheets.Count)
-
-
-[Category: Cell Copying]
-Description: Copy value from A1 to A2
-Sheets("Sheet1").Range("A2").Value = Sheets("Sheet1").Range("A1").Value
-
-[Category: Looping]
-Description: Loop through range A1 to A10
-Dim cell As Range
-For Each cell In Range("A1:A10")
-    Debug.Print cell.Value
-Next cell
-
-
-
-
-
-[Category: Range Operations]
-Dim val As Variant
-val = Sheets("Sheet1").Range("A1").Value
-Sheets("Sheet1").Range("B1").Value = "Hello"
-
-Dim cell As Range
-For Each cell In Sheets("Sheet1").Range("A1:A10")
-    ' Do something with cell.Value
-Next cell
-
-Dim lastRow As Long
-lastRow = Sheets("Sheet1").Cells(Rows.Count, 1).End(xlUp).Row
-
-Sheets("Sheet1").Range("A1:C10").Copy Destination:=Sheets("Sheet2").Range("A1")
-Sheets("Sheet1").Range("A1:C10").ClearContents
-
-[Category: Loops and Conditions]
-For i = 1 To 10
-    ' code
-Next i
-
-i = 1
-While i <= 10
-    ' code
-    i = i + 1
-Wend
-
-If Sheets("Sheet1").Range("A1").Value > 100 Then
-    MsgBox "Value is greater than 100"
-Else
-    MsgBox "Value is 100 or less"
-End If
-
-Select Case Sheets("Sheet1").Range("A1").Value
-    Case 1
-        MsgBox "Value is 1"
-    Case 2, 3, 4
-        MsgBox "Value is 2, 3, or 4"
-    Case Else
-        MsgBox "Other value"
-End Select
-
-[Category: Arrays and Collections]
-Dim arr(1 To 5) As Integer
-For i = 1 To 5
-    arr(i) = i * 10
-Next i
-
-For i = LBound(arr) To UBound(arr)
-    Debug.Print arr(i)
-Next i
-
-Dim coll As Collection
-Set coll = New Collection
-coll.Add "Apple"
-coll.Add "Banana"
-MsgBox coll(1)
-
-[Category: User Interaction]
-Dim userInput As String
-userInput = InputBox("Enter your name:")
-MsgBox "Hello, " & userInput
-
-resp = MsgBox("Do you want to continue?", vbYesNo + vbQuestion)
-If resp = vbYes Then
-    MsgBox "You chose Yes"
-Else
-    MsgBox "You chose No"
-End If
-
-[Category: File and Folder Operations]
-Dim wb As Workbook
-Set wb = Workbooks.Open("C:\\path\\to\\file.xlsx")
-
-ThisWorkbook.Save
-
-Dim fso As Object
-Set fso = CreateObject("Scripting.FileSystemObject")
-If fso.FileExists("C:\\path\\file.txt") Then
-    MsgBox "File exists"
-Else
-    MsgBox "File does not exist"
-End If
-
-If Not fso.FolderExists("C:\\NewFolder") Then
-    fso.CreateFolder ("C:\\NewFolder")
-End If
-
-[Category: Error Handling]
-On Error GoTo ErrHandler
-' Code here
-Exit Sub
-
-ErrHandler:
-MsgBox "Error " & Err.Number & ": " & Err.Description
-Resume Next
-
-[Category: UserForms]
-UserForm1.Show
-Dim name As String
-name = UserForm1.txtName.Text
-Unload UserForm1
-
-[Category: String Handling]
-Dim fullName As String
-fullName = "John" & " " & "Doe"
-
-If InStr(1, "Hello World", "World") > 0 Then
-    MsgBox "Found!"
-End If
-
-newText = Replace("Hello World", "World", "VBA")
-
-[Category: Dates and Times]
-Dim today As Date
-today = Date
-
-MsgBox Format(Date, "dd-mmm-yyyy")
-
-Dim diff As Long
-diff = DateDiff("d", #1/1/2024#, Date)
+Private Function GetBuiltInPatterns() As Collection
+    Dim patterns As New Collection
+    
+    ' =============================================
+    ' COMPLETE VBA FUNCTION LIBRARY
+    ' =============================================
+    
+    ' ---------- MATHEMATICAL FUNCTIONS ----------
+    patterns.Add "Abs(-10) ' Returns 10"
+    patterns.Add "Int(5.7) ' Returns 5"
+    patterns.Add "Fix(5.7) ' Returns 5"
+    patterns.Add "Round(5.678, 2) ' Returns 5.68"
+    patterns.Add "Sqr(16) ' Returns 4 (square root)"
+    patterns.Add "Exp(1) ' Returns e^1 = 2.718"
+    patterns.Add "Log(10) ' Natural logarithm"
+    patterns.Add "Sin(30 * 3.14159/180) ' Sine of 30 degrees"
+    patterns.Add "Cos(60 * 3.14159/180) ' Cosine of 60 degrees"
+    patterns.Add "Tan(45 * 3.14159/180) ' Tangent of 45 degrees"
+    patterns.Add "Atn(1) ' Arctangent (returns radians)"
+    patterns.Add "Rnd() ' Random number between 0 and 1"
+    patterns.Add "Randomize ' Initialize random number generator"
+    patterns.Add "Sgn(-10) ' Returns -1 (sign of number)"
+    patterns.Add "Val(""123.45"") ' Converts string to number"
+    
+    ' ---------- STRING FUNCTIONS ----------
+    patterns.Add "Len(""Hello"") ' Returns 5"
+    patterns.Add "Left(""Hello"", 2) ' Returns ""He"""
+    patterns.Add "Right(""Hello"", 2) ' Returns ""lo"""
+    patterns.Add "Mid(""Hello"", 2, 3) ' Returns ""ell"""
+    patterns.Add "InStr(""Hello"", ""ell"") ' Returns 2"
+    patterns.Add "InStrRev(""Hello"", ""l"") ' Returns 4"
+    patterns.Add "LCase(""HELLO"") ' Returns ""hello"""
+    patterns.Add "UCase(""hello"") ' Returns ""HELLO"""
+    patterns.Add "Trim(""  Hello  "") ' Returns ""Hello"""
+    patterns.Add "LTrim(""  Hello"") ' Removes leading spaces"
+    patterns.Add "RTrim(""Hello  "") ' Removes trailing spaces"
+    patterns.Add "Replace(""Hello World"", ""World"", ""VBA"")"
+    patterns.Add "StrReverse(""Hello"") ' Returns ""olleH"""
+    patterns.Add "Space(5) ' Returns 5 spaces"
+    patterns.Add "String(5, ""*"") ' Returns ""*****"""
+    patterns.Add "StrComp(""A"", ""B"", vbTextCompare) ' Compare strings"
+    patterns.Add "Format(""Hello"", ""<"") ' Converts to lowercase"
+    patterns.Add "Format(""hello"", "">"") ' Converts to uppercase"
+    patterns.Add "Split(""a,b,c"", "","") ' Returns array"
+    patterns.Add "Join(Array(""a"",""b"",""c""), "","") ' Returns ""a,b,c"""
+    
+    ' ---------- DATE & TIME FUNCTIONS ----------
+    patterns.Add "Date ' Returns current date"
+    patterns.Add "Now ' Returns current date and time"
+    patterns.Add "Time ' Returns current time"
+    patterns.Add "Year(Date) ' Returns current year"
+    patterns.Add "Month(Date) ' Returns current month (1-12)"
+    patterns.Add "Day(Date) ' Returns current day"
+    patterns.Add "Hour(Now) ' Returns current hour"
+    patterns.Add "Minute(Now) ' Returns current minute"
+    patterns.Add "Second(Now) ' Returns current second"
+    patterns.Add "Weekday(Date) ' Returns day of week (1-7)"
+    patterns.Add "WeekdayName(2) ' Returns day name"
+    patterns.Add "MonthName(1) ' Returns month name"
+    patterns.Add "DateAdd(""d"", 7, Date) ' Add 7 days"
+    patterns.Add "DateDiff(""d"", #1/1/2024#, Date) ' Days between"
+    patterns.Add "DatePart(""yyyy"", Date) ' Extract year"
+    patterns.Add "DateSerial(2024, 1, 15) ' Creates date"
+    patterns.Add "TimeSerial(14, 30, 0) ' Creates time"
+    patterns.Add "DateValue(""January 15, 2024"") ' Converts to date"
+    patterns.Add "TimeValue(""14:30:00"") ' Converts to time"
+    patterns.Add "Format(Date, ""yyyy-mm-dd"") ' Custom format"
+    patterns.Add "Format(Now, ""hh:mm:ss AM/PM"") ' Time format"
+    patterns.Add "CDate(""2024-01-15"") ' Convert to date"
+    
+    ' ---------- CONVERSION FUNCTIONS ----------
+    patterns.Add "CStr(123) ' Convert to String"
+    patterns.Add "CInt(""123"") ' Convert to Integer"
+    patterns.Add "CLng(""123"") ' Convert to Long"
+    patterns.Add "CDbl(""123.45"") ' Convert to Double"
+    patterns.Add "CCur(""123.45"") ' Convert to Currency"
+    patterns.Add "CBool(1) ' Convert to Boolean (True)"
+    patterns.Add "CDate(""2024-01-15"") ' Convert to Date"
+    patterns.Add "CVar(100) ' Convert to Variant"
+    patterns.Add "Str(123) ' Number to string (with space)"
+    patterns.Add "Chr(65) ' Returns ""A"" (ASCII character)"
+    patterns.Add "Asc(""A"") ' Returns 65 (ASCII code)"
+    patterns.Add "Hex(255) ' Returns ""FF"""
+    patterns.Add "Oct(8) ' Returns ""10"""
+    
+    ' ---------- FINANCIAL FUNCTIONS ----------
+    patterns.Add "FV(0.05/12, 10*12, -100, -1000) ' Future Value"
+    patterns.Add "PV(0.05/12, 120, -500) ' Present Value"
+    patterns.Add "NPV(0.1, -10000, 3000, 4000, 5000) ' Net Present Value"
+    patterns.Add "Pmt(0.05/12, 360, -200000) ' Loan Payment"
+    patterns.Add "IPmt(0.05/12, 1, 360, -200000) ' Interest Payment"
+    patterns.Add "PPmt(0.05/12, 1, 360, -200000) ' Principal Payment"
+    patterns.Add "Rate(360, -1000, 200000) ' Interest Rate"
+    patterns.Add "NPer(0.05/12, -1000, 10000) ' Number of Periods"
+    patterns.Add "SLN(10000, 1000, 5) ' Straight Line Depreciation"
+    patterns.Add "DDB(10000, 1000, 5, 1) ' Double Declining Balance"
+    patterns.Add "SYD(10000, 1000, 5, 1) ' Sum of Years Depreciation"
+    
+    ' ---------- INFORMATION FUNCTIONS ----------
+    patterns.Add "IsNull(variable) ' Check if Null"
+    patterns.Add "IsEmpty(variable) ' Check if Empty"
+    patterns.Add "IsNumeric(variable) ' Check if Number"
+    patterns.Add "IsDate(variable) ' Check if Date"
+    patterns.Add "IsArray(variable) ' Check if Array"
+    patterns.Add "IsObject(variable) ' Check if Object"
+    patterns.Add "IsError(variable) ' Check if Error"
+    patterns.Add "TypeName(variable) ' Returns variable type"
+    patterns.Add "VarType(variable) ' Returns type number"
+    patterns.Add "TypeOf variable Is Range ' Check object type"
+    
+    ' ---------- INTERACTION FUNCTIONS ----------
+    patterns.Add "InputBox(""Enter value:"") ' Get user input"
+    patterns.Add "MsgBox(""Message"") ' Show message box"
+    patterns.Add "MsgBox(""Continue?"", vbYesNo + vbQuestion) ' Yes/No box"
+    patterns.Add "Application.GetSaveAsFilename ' Get save filename"
+    patterns.Add "Application.GetOpenFilename ' Get open filename"
+    patterns.Add "Application.FileDialog(msoFileDialogFilePicker) ' File picker"
+    patterns.Add "Application.FileDialog(msoFileDialogFolderPicker) ' Folder picker"
+    patterns.Add "Application.InputBox(""Enter value"", Type:=1) ' Number input"
+    
+    ' ---------- SHEET FUNCTIONS ----------
+    patterns.Add "Sheets(""Sheet1"").Activate"
+    patterns.Add "Sheets.Add After:=Sheets(Sheets.Count)"
+    patterns.Add "Sheets(""Sheet1"").Delete"
+    patterns.Add "Sheets(""Sheet1"").Copy Before:=Sheets(1)"
+    patterns.Add "Sheets(""Sheet1"").Move After:=Sheets(Sheets.Count)"
+    patterns.Add "Sheets(""Sheet1"").Select"
+    patterns.Add "Sheets(""Sheet1"").Visible = xlSheetHidden"
+    patterns.Add "Sheets(""Sheet1"").Visible = xlSheetVeryHidden"
+    patterns.Add "Sheets(""Sheet1"").Visible = xlSheetVisible"
+    patterns.Add "Sheets(""Sheet1"").Name = ""New Name"""
+    patterns.Add "Sheets(""Sheet1"").Tab.Color = RGB(255,0,0)"
+    patterns.Add "Sheets(""Sheet1"").Protect ""password"""
+    patterns.Add "Sheets(""Sheet1"").Unprotect ""password"""
+    patterns.Add "Sheets(""Sheet1"").PrintOut"
+    patterns.Add "Sheets(""Sheet1"").PrintPreview"
+    
+    ' ---------- RANGE FUNCTIONS ----------
+    patterns.Add "Range(""A1"").Value = ""Text"""
+    patterns.Add "Range(""A1"").Copy Destination:=Range(""B1"")"
+    patterns.Add "Range(""A1"").Cut Destination:=Range(""B1"")"
+    patterns.Add "Range(""A1:A10"").Clear"
+    patterns.Add "Range(""A1:A10"").ClearContents"
+    patterns.Add "Range(""A1:A10"").ClearFormats"
+    patterns.Add "Range(""A1"").Delete Shift:=xlUp"
+    patterns.Add "Range(""A1"").Insert Shift:=xlDown"
+    patterns.Add "Range(""A1"").Font.Bold = True"
+    patterns.Add "Range(""A1"").Font.Size = 12"
+    patterns.Add "Range(""A1"").Font.Name = ""Calibri"""
+    patterns.Add "Range(""A1"").Font.Color = RGB(255,0,0)"
+    patterns.Add "Range(""A1"").Interior.Color = RGB(255,255,0)"
+    patterns.Add "Range(""A1:A10"").Sort Key1:=Range(""A1"")"
+    patterns.Add "Range(""A1:A10"").AutoFilter Field:=1, Criteria1:="">100"""
+    patterns.Add "Range(""A1"").Offset(1,0).Value = ""Below"""
+    patterns.Add "Range(""A1"").Resize(5,1).Value = ""Test"""
+    patterns.Add "Range(""A1"").End(xlDown).Select"
+    patterns.Add "Range(""A1"").End(xlToRight).Select"
+    patterns.Add "Range(""A1"").Address"
+    patterns.Add "Range(""A1"").Row ' Returns row number"
+    patterns.Add "Range(""A1"").Column ' Returns column number"
+    patterns.Add "Range(""A1"").Formula = ""=SUM(B1:B10)"""
+    patterns.Add "Range(""A1"").NumberFormat = ""$#,##0.00"""
+    patterns.Add "Range(""A1"").Merge"
+    patterns.Add "Range(""A1"").UnMerge"
+    patterns.Add "Range(""A1:A10"").CopyPicture Appearance:=xlScreen, Format:=xlPicture"
+    patterns.Add "Range(""A1"").Comment.Text Text:=""This is a comment"""
+    
+    ' ---------- WORKBOOK FUNCTIONS ----------
+    patterns.Add "Workbooks.Add ' Create new workbook"
+    patterns.Add "Workbooks.Open Filename:=""C:\file.xlsx"""
+    patterns.Add "ThisWorkbook.Save ' Save this workbook"
+    patterns.Add "ThisWorkbook.SaveAs Filename:=""C:\newfile.xlsx"""
+    patterns.Add "ActiveWorkbook.Close SaveChanges:=True"
+    patterns.Add "Workbooks(""MyFile.xlsx"").Activate"
+    patterns.Add "ThisWorkbook.Path ' Get workbook path"
+    patterns.Add "ThisWorkbook.Name ' Get workbook name"
+    patterns.Add "ThisWorkbook.FullName ' Get full path and name"
+    patterns.Add "ThisWorkbook.Sheets.Count ' Get sheet count"
+    patterns.Add "ThisWorkbook.Protect ""password"" ' Protect workbook"
+    patterns.Add "ThisWorkbook.Unprotect ""password"" ' Unprotect workbook"
+    
+    ' ---------- APPLICATION FUNCTIONS ----------
+    patterns.Add "Application.ScreenUpdating = False ' Speed up code"
+    patterns.Add "Application.Calculation = xlCalculationManual"
+    patterns.Add "Application.EnableEvents = False"
+    patterns.Add "Application.DisplayAlerts = False ' Suppress warnings"
+    patterns.Add "Application.Username ' Get username"
+    patterns.Add "Application.OperatingSystem ' Get OS info"
+    patterns.Add "Application.Version ' Get Excel version"
+    patterns.Add "Application.Path ' Get Excel path"
+    patterns.Add "Application.ActivePrinter ' Get active printer"
+    patterns.Add "Application.Wait Now + TimeValue(""00:00:05"") ' Pause 5 seconds"
+    patterns.Add "Application.OnTime Now + TimeValue(""00:00:10"")", "" "MyMacro"" ' Schedule macro"
+    patterns.Add "Application.Quit ' Exit Excel"
+    patterns.Add "Application.CutCopyMode = False ' Clear clipboard"
+    patterns.Add "Application.StatusBar = ""Processing..."" ' Set status bar"
+    patterns.Add "Application.StatusBar = False ' Reset status bar"
+    
+    ' ---------- FILE SYSTEM OBJECT FUNCTIONS ----------
+    patterns.Add "Dim fso As Object: Set fso = CreateObject(""Scripting.FileSystemObject"")"
+    patterns.Add "fso.FileExists(""C:\file.txt"") ' Check if file exists"
+    patterns.Add "fso.FolderExists(""C:\Folder"") ' Check if folder exists"
+    patterns.Add "fso.CreateFolder(""C:\NewFolder"") ' Create folder"
+    patterns.Add "fso.DeleteFile ""C:\file.txt"", True ' Delete file"
+    patterns.Add "fso.DeleteFolder ""C:\Folder"", True ' Delete folder"
+    patterns.Add "fso.CopyFile ""C:\source.txt"", ""C:\dest.txt"", True ' Copy file"
+    patterns.Add "fso.MoveFile ""C:\source.txt"", ""C:\dest.txt"" ' Move file"
+    patterns.Add "fso.GetFileName(""C:\path\file.txt"") ' Get file name"
+    patterns.Add "fso.GetBaseName(""C:\path\file.txt"") ' Get name without extension"
+    patterns.Add "fso.GetExtensionName(""C:\path\file.txt"") ' Get extension"
+    patterns.Add "fso.GetParentFolderName(""C:\path\file.txt"") ' Get folder path"
+    patterns.Add "fso.GetFile(""C:\file.txt"").DateCreated ' Get creation date"
+    patterns.Add "fso.GetFile(""C:\file.txt"").DateLastModified ' Get modified date"
+    patterns.Add "fso.GetFile(""C:\file.txt"").Size ' Get file size in bytes"
+    patterns.Add "fso.OpenTextFile(""C:\file.txt"", 1).ReadAll ' Read entire file"
+    patterns.Add "fso.OpenTextFile(""C:\file.txt"", 2).WriteLine ""Hello"" ' Write to file"
+    
+    ' ---------- ERROR HANDLING ----------
+    patterns.Add "On Error Resume Next ' Ignore errors"
+    patterns.Add "On Error GoTo 0 ' Stop ignoring errors"
+    patterns.Add "On Error GoTo ErrorHandler ' Go to error handler"
+    patterns.Add "If Err.Number <> 0 Then MsgBox Err.Description"
+    patterns.Add "Err.Clear ' Clear error"
+    patterns.Add "Err.Raise 1000 ' Raise custom error"
+    patterns.Add "Resume ' Resume at error line"
+    patterns.Add "Resume Next ' Resume after error line"
+    
+    ' ---------- COLLECTION FUNCTIONS ----------
+    patterns.Add "Dim coll As New Collection"
+    patterns.Add "coll.Add ""Item1"" ' Add item"
+    patterns.Add "coll.Add ""Item2"", ""Key2"" ' Add with key"
+    patterns.Add "coll.Count ' Get count"
+    patterns.Add "coll.Item(1) ' Get by index"
+    patterns.Add "coll.Item(""Key2"") ' Get by key"
+    patterns.Add "coll.Remove(1) ' Remove by index"
+    patterns.Add "For Each item In coll: Debug.Print item: Next item"
+    
+    ' ---------- DICTIONARY FUNCTIONS ----------
+    patterns.Add "Dim dict As Object: Set dict = CreateObject(""Scripting.Dictionary"")"
+    patterns.Add "dict.Add ""Key1"", ""Value1"" ' Add key-value pair"
+    patterns.Add "dict(""Key1"") = ""NewValue"" ' Update value"
+    patterns.Add "dict.Exists(""Key1"") ' Check if key exists"
+    patterns.Add "dict.Remove(""Key1"") ' Remove key"
+    patterns.Add "dict.Count ' Get count"
+    patterns.Add "dict.Keys ' Get all keys"
+    patterns.Add "dict.Items ' Get all values"
+    patterns.Add "dict.RemoveAll ' Clear dictionary"
+    
+    ' ---------- ARRAY FUNCTIONS ----------
+    patterns.Add "Dim arr() As Variant: arr = Array(1, 2, 3)"
+    patterns.Add "ReDim arr(1 To 5) ' Resize array"
+    patterns.Add "ReDim Preserve arr(1 To 10) ' Resize preserving data"
+    patterns.Add "LBound(arr) ' Lower bound"
+    patterns.Add "UBound(arr) ' Upper bound"
+    patterns.Add "Split(""a,b,c"", "","") ' String to array"
+    patterns.Add "Join(arr, "","") ' Array to string"
+    patterns.Add "Filter(arr, ""text"", True) ' Filter array"
+    
+    ' ---------- REGULAR EXPRESSIONS ----------
+    patterns.Add "Dim regex As Object: Set regex = CreateObject(""VBScript.RegExp"")"
+    patterns.Add "regex.Pattern = ""\d+"" ' Set pattern"
+    patterns.Add "regex.Global = True ' Match all occurrences"
+    patterns.Add "regex.IgnoreCase = True ' Ignore case"
+    patterns.Add "regex.Test(""abc123"") ' Returns True if match"
+    patterns.Add "regex.Execute(""abc123"") ' Get matches"
+    patterns.Add "regex.Replace(""abc123"", ""X"") ' Replace matches"
+    
+    ' ---------- ARITHMETIC OPERATIONS ----------
+    patterns.Add "result = 10 + 5 ' Addition"
+    patterns.Add "result = 10 - 5 ' Subtraction"
+    patterns.Add "result = 10 * 5 ' Multiplication"
+    patterns.Add "result = 10 / 5 ' Division"
+    patterns.Add "result = 10 \ 3 ' Integer division (returns 3)"
+    patterns.Add "result = 10 Mod 3 ' Modulus (returns 1)"
+    patterns.Add "result = 10 ^ 2 ' Exponentiation (10 squared = 100)"
+    
+    ' ---------- COMPARISON OPERATORS ----------
+    patterns.Add "If a = b Then ' Equal to"
+    patterns.Add "If a <> b Then ' Not equal to"
+    patterns.Add "If a > b Then ' Greater than"
+    patterns.Add "If a < b Then ' Less than"
+    patterns.Add "If a >= b Then ' Greater than or equal"
+    patterns.Add "If a <= b Then ' Less than or equal"
+    patterns.Add "If a Like ""*test*"" Then ' Pattern match"
+    patterns.Add "If a Is Nothing Then ' Object comparison"
+    
+    ' ---------- LOGICAL OPERATORS ----------
+    patterns.Add "If a > 0 And b > 0 Then ' AND"
+    patterns.Add "If a > 0 Or b > 0 Then ' OR"
+    patterns.Add "If Not (a > 0) Then ' NOT"
+    patterns.Add "If a > 0 Xor b > 0 Then ' XOR (exclusive OR)"
+    
+    ' ---------- TOOLBAR & MENU FUNCTIONS ----------
+    patterns.Add "CommandBars.ExecuteMso ""Copy"" ' Execute ribbon command"
+    patterns.Add "CommandBars(""Standard"").Controls(1).Execute"
+    patterns.Add "Application.CommandBars.ActiveMenuBar.Enabled = True"
+    
+    ' ---------- WINDOW FUNCTIONS ----------
+    patterns.Add "ActiveWindow.Zoom = 100 ' Set zoom"
+    patterns.Add "ActiveWindow.SplitColumn = 2 ' Split window"
+    patterns.Add "ActiveWindow.FreezePanes = True ' Freeze panes"
+    patterns.Add "ActiveWindow.NewWindow ' Open new window"
+    patterns.Add "ActiveWindow.Arrange xlArrangeStyleTiled ' Arrange windows"
+    
+    ' ---------- PRINTING FUNCTIONS ----------
+    patterns.Add "ActiveSheet.PageSetup.Orientation = xlLandscape"
+    patterns.Add "ActiveSheet.PageSetup.Zoom = False"
+    patterns.Add "ActiveSheet.PageSetup.FitToPagesWide = 1"
+    patterns.Add "ActiveSheet.PageSetup.FitToPagesTall = 1"
+    patterns.Add "ActiveSheet.PageSetup.LeftMargin = Application.InchesToPoints(0.5)"
+    patterns.Add "ActiveSheet.PageSetup.CenterHorizontally = True"
+    patterns.Add "ActiveSheet.PageSetup.PrintTitleRows = ""$1:$1"""
+    patterns.Add "ActiveSheet.PageSetup.PrintArea = ""$A$1:$F$20"""
+    
+    ' ---------- CHART FUNCTIONS ----------
+    patterns.Add "ActiveSheet.Shapes.AddChart2(251, xlColumnClustered).Select"
+    patterns.Add "ActiveChart.SetSourceData Source:=Range(""A1:B10"")"
+    patterns.Add "ActiveChart.ChartTitle.Text = ""My Chart"""
+    patterns.Add "ActiveChart.Axes(xlValue).MinimumScale = 0"
+    patterns.Add "ActiveChart.HasLegend = True"
+    patterns.Add "ActiveChart.Legend.Position = xlLegendPositionBottom"
+    
+    ' ---------- PIVOT TABLE FUNCTIONS ----------
+    patterns.Add "ActiveSheet.PivotTableWizard SourceType:=xlDatabase, SourceData:=Range(""A1:C100"")"
+    patterns.Add "ActiveSheet.PivotTables(""PivotTable1"").PivotCache.Refresh"
+    patterns.Add "ActiveSheet.PivotTables(""PivotTable1"").AddDataField ActiveSheet.PivotTables(""PivotTable1"").PivotFields(""Sales"")"
+    patterns.Add "ActiveSheet.PivotTables(""PivotTable1"").PivotFields(""Product"").Orientation = xlRowField"
+    
+    ' ---------- SHAPE FUNCTIONS ----------
+    patterns.Add "ActiveSheet.Shapes.AddShape(msoShapeRectangle, 50, 50, 100, 50).Select"
+    patterns.Add "Selection.ShapeRange.Fill.ForeColor.RGB = RGB(255,0,0)"
+    patterns.Add "Selection.ShapeRange.Line.Weight = 2"
+    patterns.Add "Selection.ShapeRange.TextFrame2.TextRange.Characters.Text = ""Hello"""
+    
+    ' ---------- QUERY TABLE FUNCTIONS ----------
+    patterns.Add "ActiveSheet.QueryTables.Add Connection:=""TEXT;C:\file.txt"", Destination:=Range(""A1"")"
+    patterns.Add "ActiveSheet.QueryTables(1).RefreshStyle = xlOverwriteCells"
+    patterns.Add "ActiveSheet.QueryTables(1).TextFileCommaDelimiter = True"
+    patterns.Add "ActiveSheet.QueryTables(1).Refresh BackgroundQuery:=False"
+    
+    ' ---------- XML FUNCTIONS ----------
+    patterns.Add "Dim xmlDoc As Object: Set xmlDoc = CreateObject(""MSXML2.DOMDocument"")"
+    patterns.Add "xmlDoc.Load ""C:\file.xml"" ' Load XML file"
+    patterns.Add "xmlDoc.SelectSingleNode(""//node"").Text ' Get node value"
+    patterns.Add "xmlDoc.SelectNodes(""//node"") ' Get all nodes"
+    
+    ' ---------- ADO DATABASE FUNCTIONS ----------
+    patterns.Add "Dim conn As Object: Set conn = CreateObject(""ADODB.Connection"")"
+    patterns.Add "conn.Open ""Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\data.accdb"""
+    patterns.Add "Dim rs As Object: Set rs = CreateObject(""ADODB.Recordset"")"
+    patterns.Add "rs.Open ""SELECT * FROM Table"", conn"
+    patterns.Add "rs.Fields(0).Value ' Get field value"
+    patterns.Add "rs.Close: conn.Close ' Close connections"
+    
+    ' ---------- INTERNET / HTTP FUNCTIONS ----------
+    patterns.Add "Dim http As Object: Set http = CreateObject(""MSXML2.XMLHTTP"")"
+    patterns.Add "http.Open ""GET"", ""https://api.example.com/data"", False"
+    patterns.Add "http.Send"
+    patterns.Add "Dim response As String: response = http.responseText"
+    
+    ' ---------- SHEET PROTECTION ----------
+    patterns.Add "ActiveSheet.Protect Password:=""secret"", DrawingObjects:=True, Contents:=True"
+    patterns.Add "ActiveSheet.Unprotect Password:=""secret"""
+    patterns.Add "ActiveSheet.EnableSelection = xlUnlockedCells"
+    patterns.Add "Range(""A1"").Locked = False ' Unlock specific cells"
+    
+    ' ---------- CONDITIONAL FORMATTING ----------
+    patterns.Add "Range(""A1:A10"").FormatConditions.Add Type:=xlCellValue, Operator:=xlGreater, Formula1:=""100"""
+    patterns.Add "Range(""A1:A10"").FormatConditions(1).Interior.Color = RGB(255,0,0)"
+    patterns.Add "Range(""A1:A10"").FormatConditions(1).StopIfTrue = False"
+    patterns.Add "Range(""A1:A10"").FormatConditions.Delete ' Remove formatting"
+    
+    ' ---------- DATA VALIDATION ----------
+    patterns.Add "With Range(""A1"").Validation"
+    patterns.Add "    .Delete"
+    patterns.Add "    .Add Type:=xlValidateWholeNumber, AlertStyle:=xlValidAlertStop, Operator:=xlBetween, Formula1:=""1"", Formula2:=""100"""
+    patterns.Add "    .InputTitle = ""Enter number"""
+    patterns.Add "    .ErrorTitle = ""Invalid"""
+    patterns.Add "    .ErrorMessage = ""Enter 1-100"""
+    patterns.Add "End With"
+    
+    ' ---------- NAMED RANGES ----------
+    patterns.Add "ThisWorkbook.Names.Add Name:=""MyRange"", RefersToR1C1:=""=Sheet1!R1C1:R10C1"""
+    patterns.Add "Range(""MyRange"").Value = ""Hello"""
+    patterns.Add "ThisWorkbook.Names(""MyRange"").Delete"
+    
+    ' ---------- COMMENTS / NOTES ----------
+    patterns.Add "Range(""A1"").AddComment ""This is a comment"""
+    patterns.Add "Range(""A1"").Comment.Text Text:=""Updated comment"""
+    patterns.Add "Range(""A1"").Comment.Visible = True"
+    patterns.Add "Range(""A1"").ClearComments"
+    
+    ' ---------- HYPERLINKS ----------
+    patterns.Add "ActiveSheet.Hyperlinks.Add Anchor:=Range(""A1""), Address:=""https://www.google.com"", TextToDisplay:=""Click Here"""
+    patterns.Add "ActiveSheet.Hyperlinks.Add Anchor:=Range(""A2""), Address:=""C:\file.xlsx"" , TextToDisplay:=""Open File"""
+    
+    ' ---------- SPELLING & LANGUAGE ----------
+    patterns.Add "Application.CheckSpelling(""Hello"") ' Check spelling"
+    patterns.Add "Application.LanguageSettings.LanguageID(msoLanguageIDInstall) ' Get language"
+    
+    ' ---------- ADDITION USEFUL PATTERNS ----------
+    patterns.Add "SendKeys ""^c"" ' Send Ctrl+C"
+    patterns.Add "Application.OnKey ""^+c"", ""MyMacro"" ' Set shortcut"
+    patterns.Add "Application.International(xlCountryCode) ' Get country code"
+    patterns.Add "Application.UsedRange.Rows.Count ' Count used rows"
+    patterns.Add "Application.UsedRange.Columns.Count ' Count used columns"
+    patterns.Add "Application.Union(Range(""A1:A10""), Range(""C1:C10"")).Select ' Multiple ranges"
+    patterns.Add "Application.Intersect(Range(""A1:Z100""), Range(""A:A"")) ' Overlapping ranges"
+    
+    Set GetBuiltInPatterns = patterns
+End Function
