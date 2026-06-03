@@ -2,11 +2,7 @@
 Chatbot based VBA codes and databank
 
 
+<img width="1083" height="523" alt="image" src="https://github.com/user-attachments/assets/b08bb672-f43c-4862-a06f-1539b7d353ca" />
 
-1. Copy VBA Databank File in Folder
+<img width="1280" height="581" alt="image" src="https://github.com/user-attachments/assets/52d1b72e-612b-4ce1-9860-6db478fe599e" />
 
-![image](https://github.com/user-attachments/assets/7d971a89-9973-465b-9dbf-e544ad84dcc6)
-
-2. Get frmVbaPatterns.frm , Module1.bas imported in Excel Developer mode.
-3. Operate it.
-![image](https://github.com/user-attachments/assets/de9aa931-49a9-492f-82b1-024cbe1fe00d)
